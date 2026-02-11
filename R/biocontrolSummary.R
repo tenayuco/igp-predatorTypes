@@ -388,3 +388,66 @@ plotter_relative_lblb_cat <- function(da_ta_cat, ip_values= c("IpMin", "IpMax"),
     }
   }
 }
+
+
+
+##############33here is a simplified converter. That should results in the same
+
+differencer_cat_lblb_treatment <- function(da_ta_coex, ip_chosen= c("IpMin", "IpMax"), in_chosen= c("InMin", "InMax")){
+  ### we gonna remove the bistabilities for this species plot 
+  
+  ##here I add the categories of the IGP groups
+  DF <- da_ta_coex
+  DF$combPred_cat <- "Baseline"
+  DF$combPred_cat[DF$IGP_N %in% c("PB", "HV")] <-"Changing IG N"
+  DF$combPred_cat[DF$IGP_P %in% c("PB", "HV")] <-"Changing IG P"
+  DF$combPred_cat[(DF$IGP_P %in% c("PB", "HV"))
+                  & (DF$IGP_N %in% c("PB", "HV"))] <-"Changing both"
+  DF$combPred_cat[DF$IGP_N %in% c("PA")] <-"Parasitoid cases"
+  
+  ###here I add the K categories
+  DF$K_cat <- "lowK"
+  DF$K_cat[DF$K >4] <- "highK"
+  
+
+  DF <- DF |>
+    dplyr::filter(IpCat %in% c(ip_chosen, 0))|>
+    dplyr::filter(InCat %in% c(in_chosen, 0))|>
+    dplyr::filter(K != 0)|>
+    dplyr::group_by(IpCat, InCat, K_cat, combPred_cat, s_cat)|>
+    dplyr::summarise(meanR = mean(meanR), 
+                     meanN=mean(meanN), 
+                     meanP = mean(meanP),
+                     meanCoexistence= mean(coexistence)) |>
+    dplyr::ungroup()  ## this is to allow future select
+  
+  ## 2. we then subset the LBLB and we will paste it and thenn substract it 
+  DF_LBLB  <- DF |>
+    dplyr::filter(combPred_cat == "Baseline") 
+  
+  ## here is a left join that wil lmatch the ids colum in a many to one fashion
+  DF_CHANGE <- dplyr::left_join(x=DF, y=DF_LBLB, 
+                                by=c("K_cat", "s_cat"),
+                                relationship = "many-to-one")
+  ##here i substract                                 
+  DF_CHANGE <- DF_CHANGE|>
+    dplyr::mutate(meanR_change = (meanR.x-meanR.y),
+                  meanN_change =(meanN.x-meanN.y),
+                  meanP_change = (meanP.x-meanP.y),
+                  meanR_rel_change = 100*(meanR.x-meanR.y)/(meanR.x+meanR.y),
+                  meanN_rel_change =100*(meanN.x-meanN.y)/(meanN.x+meanN.y),
+                  meanP_rel_change = 100*(meanP.x-meanP.y)/(meanP.x+meanP.y),
+                  mean_coexi_change1= 100* (meanCoexistence.x-meanCoexistence.y)/(meanCoexistence.x+meanCoexistence.y),
+                  mean_coexi_change2= meanCoexistence.x-meanCoexistence.y##This is binary
+    ) 
+  
+  ##here I create a criteria were for each K I say if it increase or not (if 100*x-xef/x=xref > crteriachage)
+  DF_CHANGE <- DF_CHANGE |>
+    dplyr::select("IpCat.x", "InCat.x",  "K_cat", "combPred_cat.x", "s_cat",
+                  "meanR.x" , "meanCoexistence.x", "meanR_change" ,"meanR_rel_change", "mean_coexi_change1") 
+  
+  DF_CHANGE$mean_coexi_change1[is.na(DF_CHANGE$mean_coexi_change1)] <- 0
+  return(DF_CHANGE)
+}
+
+

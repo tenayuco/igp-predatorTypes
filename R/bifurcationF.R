@@ -397,7 +397,7 @@ bif_backFor <-function(model, parSw, maxPar, minPar=0, resolution=0.5, mod_param
 
 
 
-############################double sweep#########################33
+############################double sweep#########################
 
 
 doubleSweep_main <- function(model, 
