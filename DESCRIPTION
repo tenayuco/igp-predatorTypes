@@ -16,3 +16,20 @@ License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Depends: 
+    deSolve,
+    dplyr,
+    gdata,
+    ggpattern,
+    ggplot2,
+    ggthemes,
+    gridExtra,
+    manipulate,
+    plotrix,
+    reshape2,
+    Rmisc,
+    tidyverse
+Imports: 
+    devtools,
+    rdeps,
+    tidyr
