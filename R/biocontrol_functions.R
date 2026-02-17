@@ -116,7 +116,7 @@ DF_BIOCON_N$InCat[DF_BIOCON_N$normIn %in% sort(unique(DF_BIOCON_N$normIn))[5]] <
 
 
   
-file_name <- paste0("DF_BIOCONTROL_SUMMARIZED_", ".csv")
+file_name <- paste0("DF_BIOCONTROL_SUMMARIZED", ".csv")
 
 ##this is a control AFTER RUNNING THE ANALYSIS, but it is not really important 
 
@@ -127,6 +127,7 @@ write_csv(DF_BIOCON_N, paste0(file_folder, file_subfolder, file_name))
 }
 
 }
+
 
 
 
