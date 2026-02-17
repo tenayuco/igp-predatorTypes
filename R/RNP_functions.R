@@ -1,9 +1,9 @@
-######################### GENERAL MODEL ########################################3
-
-#################
-# This model includes Ip and In as a new growth factor food income 
-# the pl and p are divided into to subpopulations
-##############
+#' Functions of the ODE models for each combination. The PB and LB are the same if we change the value of phi
+#' @param t the timestep that will be considered by the ODE 
+#' @param state the previous state output by the instantion of the ODE 
+#' @param parms the parameters of the ODE
+#' @return the structure of the equations
+#' @examples
 
 
 igp_model_PBPB <- function (t, state, parms) {##includes PB, LB as predators and as preys
@@ -73,7 +73,6 @@ igp_model_HVPB <- function (t, state, parms) {##includes PB, LB as predators, PB
 }
 
 
-
 igp_model_HVHV <- function (t, state, parms) {##includes PB, LB as predators, PB,LB and HV as preys
   
   with(as.list(c(state, parms)), {
@@ -96,9 +95,6 @@ igp_model_HVHV <- function (t, state, parms) {##includes PB, LB as predators, PB
     return(list(c(dRdt, dNldt, dNadt,  dPldt, dPadt)))        
   })
 }
-
-
-###PARASITODI MODEL
 
 
 igp_model_PBPA <- function (t, state, parms) {##includes PB, LB as predators, PB,LB and HV as preys
@@ -152,8 +148,6 @@ igp_model_HVPA <- function (t, state, parms) {##includes PB, LB as predators, PB
 }
 
 
-
-##################33
 
 
 

@@ -8,7 +8,18 @@
 
 biocontrol_databaser <- function(igp_combinations, igp_times, pred_comb, s_vec, par_list){
 
+file_folder <- "./data/biocontrol/"
+file_subfolder <- paste0("sval_",  paste0(s_vec, collapse = "_"), "_", paste0(par_list, collapse = "_"), "/")  
+file_name <- paste0("DF_BIOCONTROL_RAW", ".csv")
 
+  
+##this is a control BEFORE RUNNING THE ANALYSIS
+  
+if(file.exists(paste0(file_folder, file_subfolder, file_name))){
+  print(paste0(file_folder, file_subfolder, file_name, " exists already. Verifiy before running long analysis"))} else{
+     
+dir.create(paste0(file_folder, file_subfolder), recursive = TRUE)
+  
 BIOCON_COMB <- data.frame()
 
 
@@ -64,12 +75,12 @@ for (i in seq(1, dim(BIOCON_COMB)[1])){
   BIOCON_temp <- merge(BIOCON_COMB[i,], BIOCON_temp)
   
   DF_BIOCON <- rbind(DF_BIOCON, BIOCON_temp)
-  
 }
 
-
-##Im going to export it raw
-write_csv(DF_BIOCON, "./data/biocontrol/DF_biocon_raw_changingK.csv")
+ 
+  
+write_csv(DF_BIOCON, paste0(file_folder, file_subfolder, file_name))
+}
 
 
 
@@ -77,7 +88,8 @@ write_csv(DF_BIOCON, "./data/biocontrol/DF_biocon_raw_changingK.csv")
 ### im gonna export it raw...v
 
 
-DF_BIOCON_N <- DF_BIOCON %>%
+  
+DF_BIOCON_N <- read.csv(paste0(file_folder, file_subfolder, file_name))%>%
   dplyr::group_by(Ip, In, K, combPred, type, S, direccion)%>%
   dplyr::summarise(meanR = mean(R), meanN= mean(N), meanP = mean(P))
 
@@ -103,35 +115,19 @@ DF_BIOCON_N$InCat[DF_BIOCON_N$normIn %in% sort(unique(DF_BIOCON_N$normIn))[3:4]]
 DF_BIOCON_N$InCat[DF_BIOCON_N$normIn %in% sort(unique(DF_BIOCON_N$normIn))[5]] <- "InMax"
 
 
-write_csv(DF_BIOCON_N, "./data/biocontrol/DF_biocon_summarized_K.csv")
+  
+file_name <- paste0("DF_BIOCONTROL_SUMMARIZED_", ".csv")
 
+##this is a control AFTER RUNNING THE ANALYSIS, but it is not really important 
+
+if(file.exists(paste0(file_folder, file_subfolder, file_name))){
+  print("DF_BIOCON_SUMMARIZED exists already")} else{
+write_csv(DF_BIOCON_N, paste0(file_folder, file_subfolder, file_name))
+  
+}
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#DF_BIOCON_N_IMP <- read.csv("./output/numericalIGP/biocontrol/DF_biocon_full_moreK.csv")  ###arreglar con todo el proyecto
-###
 
 
 coexistence_adder <- function(da_ta){

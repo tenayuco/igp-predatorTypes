@@ -105,4 +105,5 @@ igp_combinations <- list(
 )
 
 return(igp_combinations)
+  
 }

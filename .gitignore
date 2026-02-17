@@ -2,3 +2,5 @@ data/
 figures/
 outputs/
 editedFigures/
+man/
+NAMESPACE
