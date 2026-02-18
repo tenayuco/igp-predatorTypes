@@ -260,14 +260,15 @@ BIO_PLOT <- DF_PLOT |>
   ) +
   theme(legend.position = "none")
   
-  
-ggsave(BIO_PLOT, filename= paste0("./output/numericalIGP/biocontrol/s_cat/", 
-                                  plotted_var,
-                                  "_scat_allK_S=", 
-                                  paste(unique(DF_BIO_EQ$S), collapse = "_"),
-                                  Ip_chosen, "_",
-                                  In_chosen, ".png"),  
-       height = 9, width = 10, create.dir = T)
+
+
+#ggsave(BIO_PLOT, filename= paste0("./output/numericalIGP/biocontrol/s_cat/", 
+ #                                 plotted_var,
+  #                                "_scat_allK_S=", 
+   #                               paste(unique(DF_BIO_EQ$S), collapse = "_"),
+    #                              Ip_chosen, "_",
+     #                             In_chosen, ".png"),  
+      # height = 9, width = 10, create.dir = T)
 
   }
 }
