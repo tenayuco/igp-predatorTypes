@@ -1,10 +1,12 @@
-##Procedure to new figure of biocontrol
-
-############FUNCTIONS RELATED TO BIOCONTROL
-
-
-
-###########here the function to create the data base
+#' Function that creates the database of biocontrol. As it works on back and forth simulations it takes a lot of time
+#' @param igp_combination the general parameters of all models  
+#' @param igp_times the integration times used by the solver (ODE)
+#' @param pred_comb the combinations of predator types (LB.LB, PB.LB ...)
+#' @param s_vec the vector of initial conditions for the IGP symmetry s
+#' @param par_list the parameter list that will be swipped
+#' @return 2 data frames. stored in a subfolder with the values of the parameters. One is raw, will all the values after 2000 steps. The other is averaged if the final value did not converged 
+#' @uses bif_backFor() function from bifurcationF.R
+#' @examples
 
 biocontrol_databaser <- function(igp_combinations, igp_times, pred_comb, s_vec, par_list){
 
@@ -77,8 +79,6 @@ for (i in seq(1, dim(BIOCON_COMB)[1])){
   DF_BIOCON <- rbind(DF_BIOCON, BIOCON_temp)
 }
 
- 
-  
 write_csv(DF_BIOCON, paste0(file_folder, file_subfolder, file_name))
 }
 
@@ -129,6 +129,12 @@ write_csv(DF_BIOCON_N, paste0(file_folder, file_subfolder, file_name))
 }
 
 
+
+#' Function that adds a column of coexistence the database of biocontrol. As it works on back and forth simulations it takes a lot of time
+#' @param da_ta the summarized database for biocontrol 
+#' @return the summarized dataframe with the coexistence added. But it keeps it an internal envirormnet 
+#' @uses bif_backFor() function from bifurcationF.R
+#' @examples
 
 
 coexistence_adder <- function(da_ta){
@@ -269,6 +275,32 @@ ggsave(BIO_PLOT, filename= paste0("./output/numericalIGP/biocontrol/s_cat/",
 
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ##############This plot will plot the differences with the LBLB reference 

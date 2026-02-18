@@ -1,3 +1,10 @@
+#' Function that create a list with the initial conditions of each model 
+#' @param igp_parms the general parameters of all models  
+#' @param phi_val the phi values of pb predator types
+#' @return a composed list where for each combinations of predators we have its characteristics for the bifurcation analysis
+#' @examples
+
+
 IGP_models_lister <- function(igp_parms = igpParms, phi_values = phiVal){
 
 maxIp_HV <- (igp_parms[["mup"]] * (igp_parms[["mp"]] + igp_parms[["mup"]])) /
