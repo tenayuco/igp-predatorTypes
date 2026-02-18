@@ -20,7 +20,6 @@ Depends:
     deSolve,
     dplyr,
     gdata,
-    ggpattern,
     ggplot2,
     ggthemes,
     gridExtra,

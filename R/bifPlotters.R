@@ -16,7 +16,7 @@ library(gdata)
 
 #library(devtools)
 #install_github("coolbutuseless/ggpattern")
-library(ggpattern)
+#library(ggpattern)
 
 
 #this one plot the time series  for different parameters value

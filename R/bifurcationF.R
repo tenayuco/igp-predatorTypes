@@ -13,7 +13,7 @@ library(gdata)
 
 #library(devtools)
 #install_github("coolbutuseless/ggpattern")
-library(ggpattern)
+#library(ggpattern)
 
 ################################################################################
 #############################TIME SERIES PLOTTERS AND SOLVER###################
