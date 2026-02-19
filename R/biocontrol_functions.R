@@ -196,6 +196,7 @@ return(DF_BIO)
 
 plotter_absolute <- function(da_ta_coex, var_plot, ip_values= c("IpMin", "IpMax"), in_values= c("InMin", "InMax")){
 
+
 if(!(var_plot %in% c("meanR", "meanP", "meanN"))){print("error: var_plot shoud be meanR, meanP or meanN")
   return()} else {  
 plotted_var <- var_plot  
@@ -261,7 +262,22 @@ BIO_PLOT <- DF_PLOT |>
   theme(legend.position = "none")
   
 
+s_val <- unique(DF_PLOT$S)
+k_val <- unique(DF_PLOT$K)
 
+    
+file_folder <- "./outputs/biocontrol/"
+file_subfolder <- paste0("sval_",  paste0(s_val, collapse = "_"), "K_",  paste0(k_val, collapse = "_"), "/")      
+file_name <- paste0("PLOT_BIOCONTROL_", plotted_var , "_",  Ip_chosen , "_", In_chosen,  ".png")    
+    
+if(file.exists(paste0(file_folder, file_subfolder, file_name))){
+  print( paste0(file_name, " exists already"))} else{
+  
+ggsave(BIO_PLOT, filename= paste0(file_folder, file_subfolder, file_name),  
+       height = 9, width = 10, create.dir = T)  
+    
+}
+    
 #ggsave(BIO_PLOT, filename= paste0("./output/numericalIGP/biocontrol/s_cat/", 
  #                                 plotted_var,
   #                                "_scat_allK_S=", 
