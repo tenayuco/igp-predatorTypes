@@ -29,7 +29,7 @@ predComb <- c(
 #kList <- list(name = "K", min = 0, max = 1, res = 1) #change this to 8 for the analisis 
 
 sVec <- c(0.1, 0.5, 0.9)
-kList <- list(name = "K", min = 0, max = 3, res = 1) #change this to 8 for the analisis 
+kList <- list(name = "K", min = 0, max = 8, res = 1) #change this to 8 for the analisis 
 
 #### run the data baser
 
