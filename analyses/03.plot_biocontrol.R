@@ -18,3 +18,7 @@ plotter_absolute(da_ta_coex= DF_BIO_EQ, var_plot = "meanR",
 ip_values= c("IpMin", "IpMax"), in_values= c("InMin", "InMax"))
 
 
+################his one will  summarize and do the table
+
+
+differencer_cat_lblb_treatment(da_ta_coex =DF_BIO_EQ, ip_chosen= c("IpMin"), in_chosen= c("InMax"))
