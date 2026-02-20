@@ -14,8 +14,10 @@ DF_BIO_EQ <- coexistence_adder(da_ta = DF_BIO_IMPORT)
 
 ###############
 #create the plotts for the absolute value of R, and N and S for the supplmentary
-plotter_absolute(da_ta_coex= DF_BIO_EQ, var_plot = "meanR", 
+for (varPlot in c("meanR", "meanN", "meanP")){
+plotter_absolute(da_ta_coex= DF_BIO_EQ, var_plot = varPlot, 
 ip_values= c("IpMin", "IpMax"), in_values= c("InMin", "InMax"))
+}
 
 
 ################his one will  summarize and do the table

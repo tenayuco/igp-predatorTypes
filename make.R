@@ -25,5 +25,5 @@ source("analyses/02.set_df_biocontrol.R")
 
 
 #2. plot thegeneral figures (of biocoontr)
-source("analyses/03.plot_biocontrol.R")
+source("analyses/03.analyze_biocontrol.R")
 
