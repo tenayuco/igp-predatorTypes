@@ -1,9 +1,9 @@
 ##########################################################################################################
 # Code that produce the data base of the simulations for the biocontrol
-#' @param igpParms (defined by the user)
-#' @param phiVal (defined by the user)
+#' @param igpTimes (defined by the user)
+#' @param predComb (defined by the user)
 #' @functions biocontrol_databaser()
-#' @return the igp_combinations as a list saved in your data folder
+#' @return the data baser of biocontrol and saves two data frames if noy present (data/biocontrol/sval_sVec_K_KList/df_RAW and data/biocontrol/sval_sVec_K_KList/df_SUMMARIZED
 #' @details run it only if you dont have it in your data base
 #' @details The K and S are set, but those ones change within each simulation
 #############################################################################################################
@@ -31,8 +31,7 @@ predComb <- c(
 sVec <- c(0.1, 0.5, 0.9)
 kList <- list(name = "K", min = 0, max = 8, res = 1) #change this to 8 for the analisis 
 
-#### run the data baser
-
+##checks if the data bases are present if not, runs it 
 biocontrol_databaser(
   igp_combinations = igp_combinations,
   igp_times = igpTimes,

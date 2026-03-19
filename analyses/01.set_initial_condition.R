@@ -30,7 +30,7 @@ igpParms <- c(
 phiVal <- c(phiP_PB = 0.5, phiN_PB = 0.5, phiP_rest = 0, phiN_rest = 0)
 
 ###run it and save it in the local environment 
-igp_combinations <- IGP_models_lister(igp_parms = igpParms, phi_values = phiVal)
+igp_combinations <-  IGP_models_lister(igp_parms = igpParms, phi_values = phiVal)  #from ic_functions.R
 ###here you save it for all
 
 rm(igpParms)
