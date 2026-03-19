@@ -102,34 +102,23 @@ bifurcation_databaser <- function(
 
   
   
-biocontrol_databaser <- function(
-  igp_combinations,
-  igp_times,
-  pred_comb,
-  s_vec,
-  par_list
-) {
+biocontrol_summarizer <- function(DF_RAW)
+ {
 
-
- #this is to homogeneize the value we want to use to see the exclusion from one another.
-      if ("Rn" %in% names(BIOCON_temp)) {
-        BIOCON_temp$N <- BIOCON_temp$Rn + BIOCON_temp$Na
-      }
-      if ("Nl" %in% names(BIOCON_temp)) {
-        BIOCON_temp$N <- BIOCON_temp$Nl + BIOCON_temp$Na
-      }
-      if ("Pl" %in% names(BIOCON_temp)) {
-        BIOCON_temp$P <- BIOCON_temp$Pl + BIOCON_temp$Pa
-      }
-      if ("Rp" %in% names(BIOCON_temp)) {
-        BIOCON_temp$P <- BIOCON_temp$Rp + BIOCON_temp$Pa
-      }
 
   print("ill try now to do the summarized ")
   ##First we gonna take the decision of summarise. This means that we take the mean EVEN if we did not get to the equilibria here..
   ### im gonna export it raw...v
 
-  DF_BIOCON_N <- read.csv(paste0(file_folder, file_subfolder, file_name)) %>%
+  DF_BIOCON_N <-  DF_RAW
+
+ #this is to homogeneize the value we want to use to see the exclusion from one another.
+      if ("Nl" %in% names(DF_BIOCON_N)) {
+        DF_BIOCON_N$N <-DF_BIOCON_N$Nl + DF_BIOCON_N$Na
+      }
+        
+  DF_BIOCON_N <- DF_BIOCON_N %>%
+    dplyr::select(-any_of(c("Nl", "Na")))%>%
     dplyr::group_by(Ip, In, K, combPred, type, S, direccion) %>%
     dplyr::summarise(meanR = mean(R), meanN = mean(N), meanP = mean(P))
 
@@ -154,15 +143,9 @@ biocontrol_databaser <- function(
     DF_BIOCON_N$normIn %in% sort(unique(DF_BIOCON_N$normIn))[3]
   ] <- "InMax"
 
-  file_name <- paste0("DF_BIOCONTROL_SUMMARIZED", ".csv")
 
-  ##this is a control AFTER RUNNING THE ANALYSIS, but it is not really important
-
-  if (file.exists(paste0(file_folder, file_subfolder, file_name))) {
-    print("DF_BIOCON_SUMMARIZED exists already")
-  } else {
-    write_csv(DF_BIOCON_N, paste0(file_folder, file_subfolder, file_name))
-  }
+  return(DF_BIOCON_N)
+  
 }
 
 

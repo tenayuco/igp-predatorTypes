@@ -50,15 +50,15 @@ kList <- list(name = "K", min = 0, max = 1, res = 1) #change this to 8 for the a
 
 file_folder <- "./data/biocontrol/"
 file_subfolder <- paste0("condpar_", paste0(sList[["name"]]), "_", paste0(sList[["values"]], collapse = "_"),  "_bifpar_", paste0(kList, collapse = "_"),"/")
-file_name <- paste0("DF_BIOCONTROL_RAW", ".csv")
+file_name1 <- paste0("DF_BIOCONTROL_RAW", ".csv")
 
   ##this is a control BEFORE RUNNING THE ANALYSIS
 
-if (file.exists(paste0(file_folder, file_subfolder, file_name))) {
+if (file.exists(paste0(file_folder, file_subfolder, file_name1))) {
     print(paste0(
       file_folder,
       file_subfolder,
-      file_name,
+      file_name1,
       " exists already. Verifiy before running long analysis"
     ))
   } else {
@@ -72,7 +72,23 @@ DF_BIOCONTROL <-  bifurcation_databaser(
   cond_par_list = sList
 )
   
-write_csv(DF_BIOCONTROL, paste0(file_folder, file_subfolder, file_name))
+write_csv(DF_BIOCONTROL, paste0(file_folder, file_subfolder, file_name1))
 
 }
 
+
+##########now the summarized version for bioncontrol
+
+DF_BIOCONTOL_IMPORTED <- read.csv(paste0(file_folder, file_subfolder, file_name1))
+
+
+file_name2 <- paste0("DF_BIOCONTROL_SUMMARIZED", ".csv")
+ ##this is a control AFTER RUNNING THE ANALYSIS, but it is not really important
+
+  if (file.exists(paste0(file_folder, file_subfolder, file_name2))) {
+    print("DF_BIOCON_SUMMARIZED exists already")
+  } else {
+
+    DF_BIOCONTROL_SUM <- biocontrol_summarizer(DF_RAW = DF_BIOCONTOL_IMPORTED)
+    write_csv(DF_BIOCONTROL_SUM , paste0(file_folder, file_subfolder, file_name2))
+  }
