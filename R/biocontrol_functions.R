@@ -8,36 +8,16 @@
 #' @uses bif_backFor() function from bifurcationF.R
 #' @examples
 
-biocontrol_databaser <- function(
+bifurcation_databaser <- function(
   igp_combinations,
   igp_times,
   pred_comb,
-  s_vec,
-  par_list
+  bif_par_list,
+  cond_par_list
 ) {
-  file_folder <- "./data/biocontrol/"
-  file_subfolder <- paste0(
-    "sval_",
-    paste0(s_vec, collapse = "_"),
-    "_",
-    paste0(par_list, collapse = "_"),
-    "/"
-  )
-  file_name <- paste0("DF_BIOCONTROL_RAW", ".csv")
-
-  ##this is a control BEFORE RUNNING THE ANALYSIS
-
-  if (file.exists(paste0(file_folder, file_subfolder, file_name))) {
-    print(paste0(
-      file_folder,
-      file_subfolder,
-      file_name,
-      " exists already. Verifiy before running long analysis"
-    ))
-  } else {
-    dir.create(paste0(file_folder, file_subfolder), recursive = TRUE)
-
-    BIOCON_COMB <- data.frame()
+  
+ 
+    DF_COMB <- data.frame()
 
     ##this loops creates a data frame with the different conditions of s, and of ip
     for (comb in pred_comb) {
@@ -56,20 +36,25 @@ biocontrol_databaser <- function(
         In_seq = signif(inMax * c(0.1, 0.9), 2)
       }
 
-      BIOCON_I <- expand.grid(Ip = Ip_seq, In = In_seq, S = s_vec)
-      BIOCON_I$combPred <- chosenComb
-      BIOCON_COMB <- rbind(BIOCON_COMB, BIOCON_I)
+      DF_I <- expand.grid(Ip = Ip_seq, In = In_seq, condPar = cond_par_list[["values"]])
+      
+      
+
+      DF_I$combPred <- chosenComb
+      DF_COMB <- rbind(DF_COMB, DF_I)
     }
 
     ###this one runs the simulation
 
-    DF_BIOCON <- data.frame()
 
-    for (i in seq(1, dim(BIOCON_COMB)[1])) {
-      chosenComb <- BIOCON_COMB$combPred[i]
-      Ip_var = BIOCON_COMB$Ip[i]
-      In_var = BIOCON_COMB$In[i]
-      S_var = BIOCON_COMB$S[i]
+    DF_BIFURCATION <- data.frame()
+
+    for (i in seq(1, dim(DF_COMB)[1])) {
+      chosenComb <- DF_COMB$combPred[i]
+      Ip_var = DF_COMB$Ip[i]
+      In_var = DF_COMB$In[i]
+      par_var = DF_COMB$condPar[i]
+      par_name <- cond_par_list[["name"]]
 
       print(chosenComb)
 
@@ -77,23 +62,56 @@ biocontrol_databaser <- function(
       chosenParms = igp_combinations[[chosenComb]]$igp_parms
       chosenInit = igp_combinations[[chosenComb]]$igp_init
       chosenModel = igp_combinations[[chosenComb]]$igp_model
-      chosenParms[["S"]] <- S_var
+      chosenParms[[par_name]] <- par_var
       chosenParms[["Ip"]] <- Ip_var
       chosenParms[["In"]] <- In_var
 
-      BIOCON_temp <- bif_backFor(
+      DF_temp <- bif_backFor(
         model = chosenModel,
-        minPar = par_list[["min"]],
-        maxPar = par_list[["max"]],
-        parSw = par_list[["name"]],
-        resolution = par_list[["res"]],
+        minPar = bif_par_list[["min"]],
+        maxPar = bif_par_list[["max"]],
+        parSw = bif_par_list[["name"]],
+        resolution = bif_par_list[["res"]],
         mod_parameters = chosenParms,
         mod_times = igp_times,
         mod_init = chosenInit,
         estCr = 1e-6
       )
 
-      #this is to homogeneize the value we want to use to see the exclusion from one another.
+      
+
+#here it is just to put the hoverfly case together, iwthout detail from larval and adult, tom kae it comparable. 
+   
+      if ("Pl" %in% names(DF_temp)) {
+        DF_temp$P <- DF_temp$Pl + DF_temp$Pa
+      }
+    DF_temp <- DF_temp %>%
+        dplyr::select(-any_of(c("Pl", "Pa")))
+
+### here I add the column Pl and Pa as 
+
+      
+
+      DF_temp <- merge(DF_COMB[i, ], DF_temp)
+
+      DF_BIFURCATION <- rbind(DF_BIFURCATION, DF_temp)
+    }
+    names(DF_BIFURCATION)[which(names(DF_BIFURCATION)=="condPar")]<- par_name
+    return(DF_BIFURCATION)
+}
+
+  
+  
+biocontrol_databaser <- function(
+  igp_combinations,
+  igp_times,
+  pred_comb,
+  s_vec,
+  par_list
+) {
+
+
+ #this is to homogeneize the value we want to use to see the exclusion from one another.
       if ("Rn" %in% names(BIOCON_temp)) {
         BIOCON_temp$N <- BIOCON_temp$Rn + BIOCON_temp$Na
       }
@@ -106,17 +124,6 @@ biocontrol_databaser <- function(
       if ("Rp" %in% names(BIOCON_temp)) {
         BIOCON_temp$P <- BIOCON_temp$Rp + BIOCON_temp$Pa
       }
-
-      BIOCON_temp <- BIOCON_temp %>%
-        dplyr::select(-any_of(c("Rn", "Nl", "Pl", "Rp", "Pa", "Na")))
-
-      BIOCON_temp <- merge(BIOCON_COMB[i, ], BIOCON_temp)
-
-      DF_BIOCON <- rbind(DF_BIOCON, BIOCON_temp)
-    }
-
-    write_csv(DF_BIOCON, paste0(file_folder, file_subfolder, file_name))
-  }
 
   print("ill try now to do the summarized ")
   ##First we gonna take the decision of summarise. This means that we take the mean EVEN if we did not get to the equilibria here..
