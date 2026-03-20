@@ -5,15 +5,9 @@
 ################################################################################
 
 
-simple_ass_coex <- function(simpleDF, par_sw, facet_1=NULL, ncrit =2){
+simple_ass_coex <- function(simpleDF, ncrit =2){
 
-  ###first we have to extract the means without removing the other aspect!
-
-  if("Nl" %in% colnames(simpleDF)){
-    simpleDF$N <- simpleDF$Na + simpleDF$Nl} ###so we dont care about the stages for coexistnece 
-  if("Pl" %in% colnames(simpleDF)){
-    simpleDF$P <- simpleDF$Pa + simpleDF$Pl}
-  
+ 
   ### this is just if you have a lot of points (not convergent)
   DF_NORM <-simpleDF  |>
     dplyr::group_by(across(-any_of(c("R", "Na", "Nl", "P"))))|>

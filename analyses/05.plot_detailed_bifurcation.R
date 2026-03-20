@@ -1,14 +1,15 @@
 #the ncrit telle us the max difference
-
+## add the one you want to analize and plot
 DF_BIF <- read.csv("data/bifurcations/condpar_K_2_bifpar_S_0_1_0.1/DF_BIOCONTROL_RAW.csv")
 
+###write the name of the parameter (explicit) you bifur, and the multiple cond parameter
+
+DF_BIF_EQ <- simple_ass_coex(DF_BIF, ncrit = 2)  ##this normalizes and calcualte the mean so it removes the "other multiple points
 
 
 
 
 
-
-BIF_Sfix_K_EQ<- simple_ass_coex(BIF_Sfix_K, par_sw = "K", facet_1 = "S", ncrit = 2)  ##this normalizes and calcualte the mean so it removes the "other multiple points
 
 PT_BIF_Sfix_K_EQ <- plot_bif_sweep_facet(full_sweep =  BIF_Sfix_K_EQ, par_sw  = "K", plotVar = names(chosenInit), facet_1 = "S", xmax = 4)
 
