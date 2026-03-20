@@ -1,0 +1,50 @@
+
+
+################################################################################
+#############################CODES FOR EQUILIBI+RIA A COLORING###################
+################################################################################
+
+
+simple_ass_coex <- function(simpleDF, par_sw, facet_1=NULL, ncrit =2){
+
+  ###first we have to extract the means without removing the other aspect!
+
+  if("Nl" %in% colnames(simpleDF)){
+    simpleDF$N <- simpleDF$Na + simpleDF$Nl} ###so we dont care about the stages for coexistnece 
+  if("Pl" %in% colnames(simpleDF)){
+    simpleDF$P <- simpleDF$Pa + simpleDF$Pl}
+  
+  ### this is just if you have a lot of points (not convergent)
+  DF_NORM <-simpleDF  |>
+    dplyr::group_by(across(-any_of(c("R", "Na", "Nl", "P"))))|>
+    dplyr::summarise_all(mean)
+  
+
+  ###despues vamos a ver cuales son ASS (solo tienen sentido en los puntos)
+  ## y vamos a juntar la ida y el regreso. Es decir, aqui pierdo info, pero dejo que es ASS
+  
+  ## we add the equilibri
+  DF_NORM$EQR <-""
+  DF_NORM$EQN <-""
+  DF_NORM$EQP <-""
+  
+  ###chacun a son critere de maximumm...
+  DF_NORM$EQR[round(DF_NORM$R/max(DF_NORM$R), ncrit) >0] <- "R"
+  DF_NORM$EQN[round(DF_NORM$Nl/max(DF_NORM$Nl), ncrit) >0] <- "N"  ##here I assume no stage
+  DF_NORM$EQP[round(DF_NORM$P/max(DF_NORM$P), ncrit) >0] <- "P"
+  
+  DF_NORM <- DF_NORM |>
+    tidyr::unite("EQ", EQR:EQP, sep = "", remove = T)
+  
+  DF_NORM$EQ[DF_NORM$EQ ==""] <- 0
+  
+  DF_NORM$Rnorm <- round(DF_NORM$R/max(DF_NORM$R), ncrit) #this is the max criteria for differences (1*10-3) this is, simple criteria to distinguish two ass
+  
+  DF_NORM <- DF_NORM |>
+    dplyr::group_by(dplyr::across(-c(direccion, R, Nl, Na, P, Rnorm, EQ))) |>  #we group by aevetyghin excepet for the
+    dplyr::mutate(ASS = n_distinct(Rnorm))
+  
+  return(DF_NORM)
+  
+}
+

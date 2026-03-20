@@ -311,88 +311,6 @@ bif_min_max <- function(fullDF, varName){
 
 
 
-####back and for method. Ill comment this one a bit more. 
-bif_backFor <-function(model, parSw, maxPar, minPar=0, resolution=0.5, mod_parameters, mod_times, mod_init, 
-                       estCr = 1e-10){
-  
-  #you first establish the first sweep
-  preSweep<-seq(minPar,maxPar,resolution)                          
-  zinit <- mod_init
-  parms <-mod_parameters
-  
-  FULL_DF <- data.frame()  ## this data frame will store the equilibrium values. 
-  
-  
-  ##we establish the back and forth. We begin by ida. 
-  for (dir in c("ida", "regreso")) {
-    
-## this chunk will revert the order of the sweep of the parameter to go on the opposite direction
-    ## and stablish as its firs value, the last value of the IDA data frame
- if(dir =="regreso") {sweep <- rev(preSweep) 
- newCI <- as.numeric(tail(FULL_DF, 1)[,1:length(mod_init)]) #for the vector to be the size of the variables
- names(newCI) <- names(mod_init)
- zinit <- newCI }
-    else{sweep <- preSweep}
-  
-    
-    ### now for both ida y vuleta, this: 
-    
-  
-  for(i in 1:length(sweep)) {
-    keyPar<-sweep[i]  #this is the value of the parameter that is going to change parSw
-    parms[[parSw]] <- keyPar  #the paramater that is changing
-    
-    #afeter the firdt index it will take for initial condition the last value of the prevoius equilibria
-     # with small perturbation to travel away from the stable point (now unstable)
-     if (i>1){
-      newCI <- as.numeric(tail(FULL_DF, 1)[,1:length(mod_init)])
-      per <- estCr* 10  ##lo perturbas un orden de magnitud mas de la maxima resolucio 
-      newCI <- newCI + per
-      names(newCI) <- names(mod_init)
-      zinit <- newCI}
-    
-    
-    #print(c('i=',i, 'zinit=', zinit))
-    out<-ode(func=model, y=zinit, times=mod_times,parms=parms) %>% 
-      as.data.frame()
-    
-    #we round to the ten digit
-
-    out_last100 <-subset(out, time> max(mod_times-100))
-    out_last100 <-round(out_last100,-log10(estCr))
-    
-    
-    ## w checked if the alst values 
-    maxDIF <- estCr
-    
-    ##{2,2 is the second row of R}
-    #ig it converges, then it keeps the avergae
-    #it it does not converge yet, it take the last 100 points
-    
-    if((out_last100[2,2]- out_last100[1,2]) < maxDIF){
-      dyn_DF <- out_last100 %>%
-        dplyr::summarise_all(mean)
-      dyn_DF$type <- '1-point'
-    }
-    else {
-      dyn_DF <- out_last100
-      dyn_DF$type <-'2-other'
-    }
-    
-    ##here i remove the time, then I add the value of the param, and the direction 
-    dyn_DF$time <- NULL
-    dyn_DF$parmValue<-keyPar
-    dyn_DF$direccion <- dir
-    FULL_DF <- rbind(FULL_DF, dyn_DF)
-  }
- 
-  }  
-    
-  ###
-  names(FULL_DF)[which(names(FULL_DF)=="parmValue")]<- parSw
-  
-  return(FULL_DF)
-}
 
 
 
@@ -558,48 +476,6 @@ bif_backFor_double <-function(model,
 ################################################################################
 
 
-simple_ass_coex <- function(simpleDF, par_sw, facet_1=NULL, ncrit =2){
-
-  ###first we have to extract the means without removing the other aspect!
-
-  if("Nl" %in% colnames(simpleDF)){
-    simpleDF$N <- simpleDF$Na + simpleDF$Nl} ###so we dont care about the stages for coexistnece 
-  if("Pl" %in% colnames(simpleDF)){
-    simpleDF$P <- simpleDF$Pa + simpleDF$Pl}
-  
-  
-  DF_NORM <-simpleDF  %>%
-    dplyr::group_by(across(-any_of(c("R", "Na", "Nl", "Pl", "Pa,", "N", "P"))))%>%
-    summarise_all(mean)
-  
-
-  ###despues vamos a ver cuales son ASS (solo tienen sentido en los puntos)
-  ## y vamos a juntar la ida y el regreso. Es decir, aqui pierdo info, pero dejo que es ASS
-  
-  ## we add the equilibri
-  DF_NORM$EQR <-""
-  DF_NORM$EQN <-""
-  DF_NORM$EQP <-""
-  
-  ###chacun a son critere de maximumm...
-  DF_NORM$EQR[round(DF_NORM$R/max(DF_NORM$R), ncrit) >0] <- "R"
-  DF_NORM$EQN[round(DF_NORM$N/max(DF_NORM$N), ncrit) >0] <- "N"  ##here I assume no stage
-  DF_NORM$EQP[round(DF_NORM$P/max(DF_NORM$P), ncrit) >0] <- "P"
-  
-  DF_NORM <- DF_NORM %>%
-    unite("EQ", EQR:EQP, sep = "", remove = T)
-  
-  DF_NORM$EQ[DF_NORM$EQ ==""] <- 0
-  
-  DF_NORM$Rnorm <- round(DF_NORM$R/max(DF_NORM$R), ncrit) #this is the max criteria for differences (1*10-3)
-  
-  DF_NORM <- DF_NORM %>%
-    dplyr::group_by(across(any_of(c(par_sw, facet_1)))) %>%
-    dplyr::mutate(ASS = n_distinct(Rnorm))
-  
-  return(DF_NORM)
-  
-}
 
 
 minMax_coex <- function(simpleDF, par_sw, facet_1=NULL, ncrit =2){
