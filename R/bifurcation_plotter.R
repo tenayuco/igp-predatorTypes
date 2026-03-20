@@ -92,33 +92,49 @@ plot_bif_sweep_facet <-function(full_sweep, facet_1, par_sw, xmax, combPred){
   return(bifPlot)
 }
 
-add_eq_gray <-function(gg_plot, par_sw, reso=1){  ##In progress
- newPlot <- gg_plot + geom_rect(aes(xmin=!!sym(par_sw), 
-                         xmax =!!sym(par_sw)+reso, 
-                         ymin = 0, 
-                         ymax = Inf, 
-                         fill = EQ, 
-                         alpha= EQ))+ ## que cada rectangulo use todo su valor
- 
-   
-   # I can change this if needed
 
-   scale_alpha_manual(values = colsEQ <- c("0"= 0, 
-                                          "R"= 0, 
-                                          "RN"= 0, 
-                                          "RNP"= 0.4, 
-                                          "RP"=0))+
-   
-   
-  scale_fill_manual(values = colsEQ <- c("0"= "white", 
+
+add_eq_gray <-function(gg_plot, par_sw, reso=1, only_coex = TRUE){  ##In progress
+ 
+ 
+  # I can change this if needed so, if I change the alpha, i can leave only the coexistence area..
+  
+  
+  alpha_val <- c("0" = 0, "R" = 0, "RN" = 0, "RNP" = 0.4, "RP" = 0)
+  
+  if(only_coex ==FALSE) {
+  alpha_val <- c("0" =1 , "R" =1, "RN" = 1, "RNP" = 1, "RP" = 1)
+  }
+  
+
+
+  newPlot <- gg_plot +
+  geom_rect(aes(
+    xmin = !!sym(par_sw),
+    xmax = !!sym(par_sw) + reso,
+    ymin = 0,
+    ymax = Inf,
+    fill = EQ,
+    alpha = EQ
+  )) + ## que cada rectangulo use todo su valor
+
+
+  
+scale_alpha_manual(values = alpha_val)+
+scale_fill_manual(values = colsEQ <- c("0"= "white", 
                                         "R"= "#e6e6e6", 
                                      "RN"= "#b5b5b5", 
                                      "RNP"=  "darkgreen", #ffff67ff", #"#00b61bff", "#18474dff",
                                     "RP"="gray"))+
   geom_point(aes(shape= as.factor(type)), color= "black")+
-   geom_line(aes(group=interaction(type, direccion, minMax)), color= "black")+
+   geom_line(aes(group=interaction(type, direccion)), color= "black")+
    
    theme(legend.position="none") 
  
+  
+  
+
+
+  
  return(newPlot)
 }
