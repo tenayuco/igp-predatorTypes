@@ -6,13 +6,10 @@ DF_BIF <- read.csv("data/bifurcations/condpar_K_2_bifpar_S_0_1_0.1/DF_BIOCONTROL
 
 DF_BIF_EQ <- simple_ass_coex(DF_BIF, ncrit = 2)  ##this normalizes and calcualte the mean so it removes the "other multiple points
 
+PT_BIF_EQ <- plot_bif_sweep_facet(DF_BIF_EQ, par_sw  = "S", facet_1 = "K", xmax = 4)
 
 
-
-
-
-PT_BIF_Sfix_K_EQ <- plot_bif_sweep_facet(full_sweep =  BIF_Sfix_K_EQ, par_sw  = "K", plotVar = names(chosenInit), facet_1 = "S", xmax = 4)
-
+############here i am 
 PT_BIF_Sfix_K_EQ  <- add_eq_gray(PT_BIF_Sfix_K_EQ, par_sw = "K", reso = resoK)
 
 #PT_BIF_S_K_EQ  <- PT_BIF_S_K_EQ   + ggtitle(label = as.character(igp_name))
