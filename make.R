@@ -27,3 +27,16 @@ source("analyses/02.set_df_biocontrol.R")
 #3. plot thegeneral figures (of biocoontr)
 source("analyses/03.analyze_biocontrol.R")
 
+
+#################################################
+#4. derives the detailed bifurcations of examples.. enter the script to change the conditons 
+source("analyses/04.set_df_examples.R")
+####################3
+
+
+#################################################
+#5. plots detailed bifurcations of examples.. enter the script to change the conditons 
+source("analyses/05.plot_detailed_bifurcation.R")
+####################3
+
+

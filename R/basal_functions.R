@@ -1,15 +1,22 @@
-
-
-
-
-
+#' Functions to bifurcate that creates the database of biocontrol. As it works on back and forth simulations it takes a lot of time
+#' @param model the IGP model used
+#' @param mod_times the integration times used by the solver (ODE)
+#' @param mod_parameters the parameters of the ODE
+#' @param mod_init the initial conditions
+#' @param parSw the parameter to be swapped
+#' @param maxPar the max value of the parameter
+#' @param minPar the min value of the para
+#' @param resolution the step of the parameter to be swapped
+#' @param estCr the criteria from wchih we derived no chnage in the folowewing point
+#' @return 1 data frames.with the bifurcation 
+#' @uses ODE() function
+#'  @examples
 
 
 ################################################################################
 #############################BASAL CODES###################
 ################################################################################
-
-
+## double checked
 
 bif_backFor <-function(model, parSw, maxPar, minPar=0, resolution=0.5, mod_parameters, mod_times, mod_init, estCr = 1e-10){
   

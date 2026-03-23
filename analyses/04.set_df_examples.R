@@ -10,13 +10,6 @@
 
 #######Import general combinations and define entries for the simulation
 igpTimes <- seq(from = 1, to = 2000, by = .05) #this is the step for the integration
-#predComb <- c(
- # "LB.LB",
-  #"PB.LB",
-  #"LB.PB",
-  #"PB.PB",
-  #"LB.PA",
-#)
 predComb <- c(
   "LB.LB"
 )

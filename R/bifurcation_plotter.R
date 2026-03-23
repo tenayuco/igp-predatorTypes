@@ -1,15 +1,14 @@
-################################################################################
-#############################CODES FOR EQUILIBI+RIA A COLORING###################
-################################################################################
+#' Function to make the plot of the bifurcation detailed 
+#' @param full_sweep the data frame with all the results of the bifurcation
+#' @param facet_1 the parameter that was not swapped, but that had multiple initial conditons, character
+#' @param parSw the parameter to be swapped character
+#' @param xmax the max value of x axis
+#' @return one plot with multiple facet
+#' @uses ODE() function
+#'  @examples
 
 
-#### here is more generic with some facets (in case we want it)
-
-## wew try the same bifurcation but with facets
-plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, xmax) {
-  # Define variable ordering for faceting
-
-
+plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw) {
   varOrder <- c("P" = 3, "Na" = 2, "Nl" = 1, "R" = 0)
 
   #wide to long format
@@ -24,20 +23,16 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, xmax) {
         varName %in% names(varOrder) ~ varOrder[varName]
       )
     ) |>
-    # ggplot(aes(x = !!sym(par_sw), y = value), na.rm=TRUE) + ## the !!sym is for make the parsw a symbol
-    ggplot(aes(x = S, y = value)) + ## the !!sym is for make the parsw a symbol
+    ggplot(aes(x = !!sym(par_sw), y = value)) + ## the !!sym is for make the parsw a symbol
     geom_line(
       aes(
         group = as.factor(interaction(type, direccion, minMax)),
-        #shape = as.factor(type),
-        #color = as.factor(direccion)
       ),
-      size = 0.5
+      size = 0.5 ## this is because i dont need this line, but I can put it
     ) +
     facet_grid(
       vars(fct_reorder(varName, orden, .desc = TRUE)),
-      #vars(!!sym(facet_1)),
-      vars(K),
+      vars(!!sym(facet_1)),
       scales = "free"
     ) +
     #scale_y_discrete(breaks = full_sweep$value) +
@@ -47,9 +42,7 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, xmax) {
       end = 0.8,
       direction = -1
     ) +
-    theme_bw() +
-    # ggtitle(label= "", subtitle = as.character(facet_1)) +
-    #theme(plot.subtitle = element_text(hjust = 0.5))+
+    theme_minimal() +
     theme(
       axis.text = element_text(size = 12), # Change tick labels for all axes
       strip.background = element_blank(),
@@ -57,13 +50,22 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, xmax) {
       strip.text.y = element_blank()
     ) +
     labs(y = "", x = "IGP Symmetry (S)") # this depends on the sr parameter
-  xlim(0, xmax)
+  #xlim(0, 1) #changes this if you want to have a specific limit
 
   return(bifPlot)
 }
 
+#' Function to add the areas of coexistence 
+#' @param gg_plot the plot made by plot_bif_sweep_facet
+#' @param parSw the parameter to be swapped character
+#' @param reso need the reoslution of the parameter to see where to put the limits of rectangles
+#' @param only_coex logical value, when TRUE, only color the area of coexistence 
+#' @return one plot with multiple facet
+#' @uses ODE() function
+#'  @examples
 
-add_eq_gray <- function(gg_plot, par_sw, reso = 1, only_coex = TRUE) {
+
+add_eq_gray <- function(gg_plot, par_sw, reso = 0.5, only_coex = TRUE) {
    data <- gg_plot$data
   combPred <- unique(data$combPred)
 
@@ -73,11 +75,6 @@ colorRec <- colRecList[[combPred]]
 
   # I can change this if needed so, if I change the alpha, i can leave only the coexistence area..
 
-  alpha_val <- c("0" = 0, "R" = 0, "RN" = 0, "RNP" = 0.4, "RP" = 0)
-
-  if (only_coex == FALSE) {
-    alpha_val <- c("0" = 1, "R" = 1, "RN" = 1, "RNP" = 1, "RP" = 1)
-  }
 
   newPlot <- gg_plot +
     geom_rect(aes(
@@ -88,8 +85,9 @@ colorRec <- colRecList[[combPred]]
       fill = EQ,
       alpha = EQ
     )) + ## que cada rectangulo use todo su valor
+    #scale_alpha_manual(values = alpha_val <- c("0" = 1, "R" = 1, "RN" = 1, "RNP" = 1, "RP" = 1)) +
 
-    scale_alpha_manual(values = alpha_val) +
+    scale_alpha_manual(values = alpha_val <- c("0" = 0, "R" = 0, "RN" = 0, "RNP" = 0.4, "RP" = 0)) +
     scale_fill_manual(
       values = colsEQ <- c(
         "0" = "white",
@@ -99,10 +97,11 @@ colorRec <- colRecList[[combPred]]
         "RP" = "gray"
       )
     ) +
-   # geom_point(aes(shape = as.factor(type)), color = "black") +
-    geom_line(aes(group = interaction(type, direccion, minMax)), color = "black") +
-
+    #geom_point(aes(shape = as.factor(type)), color = "black") +
+    geom_line(aes(group = interaction(type, direccion, minMax), linetype= type), color = "black", linewidth = 1) +
+ theme_bw()+
     theme(legend.position = "none")
+   
 
   return(newPlot)
 }
