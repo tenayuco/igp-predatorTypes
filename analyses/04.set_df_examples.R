@@ -25,7 +25,7 @@ predComb <- c(
 
 
 sList <- list(name = "S", values = c(0.5)) #here is a vector of fixed initial conditions. 
-kList <- list(name = "K", min = 0, max = 8, res = 2) #change this to 8 for the analisis 
+kList <- list(name = "K", min = 0, max = 8, res = 0.1) #change this to 8 for the analisis 
 
 
 
@@ -65,7 +65,7 @@ write_csv(DF_BIF_1, paste0(file_folder, file_subfolder, file_name))
 ##################and this where I bifurcat S iwth diferent intial K
 
 
-sList <- list(name = "S", min = 0, max = 1, res = 0.5) #change this to 8 for the analisis 
+sList <- list(name = "S", min = 0, max = 1, res = 0.01) #change this to 8 for the analisis 
 kList <- list(name = "K", values = c(2)) #here is a vector of fixed initial conditions. 
 predComb <- c(
   "LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA"

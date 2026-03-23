@@ -477,66 +477,6 @@ bif_backFor_double <-function(model,
 
 
 
-
-minMax_coex <- function(simpleDF, par_sw, facet_1=NULL, ncrit =2){
-  
-  ###first we have to extract the means without removing the other aspect!
-  
-  if("Nl" %in% colnames(simpleDF)){
-    simpleDF$N <- simpleDF$Na + simpleDF$Nl} ###so we dont care about the stages for coexistnece 
-  if("Rn" %in% colnames(simpleDF)){
-    print("Rn is here")
-    simpleDF<- dplyr::rename(simpleDF, Nl = Rn)
-    simpleDF$N <- simpleDF$Na + simpleDF$Nl} ###so we dont care about the stages for coexistnece 
-  if("Pl" %in% colnames(simpleDF)){
-    simpleDF$P <- simpleDF$Pa + simpleDF$Pl}
-  
-  
-  DF_NORM <-simpleDF  %>%
-    dplyr::group_by(across(-any_of(c("R", "Na", "Nl", "Pl", "Pa", "N", "P", "Rn"))))%>%
-    summarise_all(list(maxValue = max, minValue = min, meanValue=mean))  
-  
-  ###despues vamos a ver cuales son ASS (solo tienen sentido en los puntos)
-  ## y vamos a juntar la ida y el regreso. Es decir, aqui pierdo info, pero dejo que es ASS
-  
-  ## we add the equilibri
-  DF_NORM$EQR <-""
-  DF_NORM$EQN <-""
-  DF_NORM$EQP <-""
-  
-  ###chacun a son critere de maximumm...BUT HERE I HAN CHEAITNG AND PUTTNG CPEXITE AONY IF THE MEAN IS GREEN (so it take the average of oscilaiotns)
-  DF_NORM$EQR[round(DF_NORM$R_meanValue/max(DF_NORM$R_meanValue), ncrit) >0] <- "R"
-  DF_NORM$EQN[round(DF_NORM$N_meanValue/max(DF_NORM$N_meanValue), ncrit) >0] <- "N"  ##here I assume no stage
-  DF_NORM$EQP[round(DF_NORM$P_meanValue/max(DF_NORM$P_meanValue), ncrit) >0] <- "P"
-  
-  DF_NORM <- DF_NORM %>%
-    unite("EQ", EQR:EQP, sep = "", remove = T)
-  
-  DF_NORM$EQ[DF_NORM$EQ ==""] <- 0
-  
-  DF_NORM$Rnorm <- round(DF_NORM$R_meanValue/max(DF_NORM$R_meanValue), ncrit) #this is the max criteria for differences (1*10-3)
-  
-  DF_NORM <- DF_NORM %>%
-    dplyr::group_by(across(any_of(c(par_sw, facet_1)))) %>%
-    dplyr::mutate(ASS = n_distinct(Rnorm))
-  
-  ###NOW we going to save the min and max column and put them as worw (even if repetitive..)
-  
-  #done by deepseek
-  DF_NORM_LONG <- DF_NORM %>%
-    gather(key = "var_minmax", value = "value", 
-           R_minValue, R_maxValue, Nl_minValue, Nl_maxValue, 
-           Na_minValue, Na_maxValue, P_minValue, P_maxValue) %>%
-    separate(var_minmax, into = c("variable", "minMax"), sep = "_") %>%
-    spread(key = variable, value = value)
-  
-  DF_NORM_LONG <-DF_NORM_LONG %>%
-    select(type, S, direccion, K, EQ, ASS, minMax, Na, Nl, P, R)
-  
-  return(DF_NORM_LONG)
-  
-}
-
 ##########this is almost the same as the previus function, but changin the names of facet by other parameter
 ### eventually this two functions can be the samee.. (this and the )
 
