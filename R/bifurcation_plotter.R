@@ -28,7 +28,7 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw) {
       aes(
         group = as.factor(interaction(type, direccion, minMax)),
       ),
-      size = 0.5 ## this is because i dont need this line, but I can put it
+      size = 0.2 ## this is because i dont need this line, but I can put it
     ) +
     facet_grid(
       vars(fct_reorder(varName, orden, .desc = TRUE)),
@@ -97,8 +97,8 @@ colorRec <- colRecList[[combPred]]
         "RP" = "gray"
       )
     ) +
-    #geom_point(aes(shape = as.factor(type)), color = "black") +
-    geom_line(aes(group = interaction(type, direccion, minMax), linetype= type), color = "black", linewidth = 1) +
+    geom_point(aes(shape = as.factor(type)), color = "black") +
+    #geom_line(aes(group = interaction(type, direccion, minMax), linetype= type), color = "black", linewidth = 1) +
  theme_bw()+
     theme(legend.position = "none")
    
