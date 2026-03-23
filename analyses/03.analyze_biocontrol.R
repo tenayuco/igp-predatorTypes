@@ -22,4 +22,4 @@ ip_values= c("IpMin", "IpMax"), in_values= c("InMin", "InMax"))
 
 ################his one will  summarize and do the table
 ## here I decided only to do the table with the good values for coexistence
-differencer_cat_lblb_treatment(da_ta_coex =DF_BIO_EQ, ip_chosen= c("IpMin"), in_chosen= c("InMax"))
+#differencer_cat_lblb_treatment(da_ta_coex =DF_BIO_EQ, ip_chosen= c("IpMin"), in_chosen= c("InMax"))

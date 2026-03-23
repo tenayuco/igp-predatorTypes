@@ -25,7 +25,7 @@ predComb <- c(
 
 
 sList <- list(name = "S", values = c(0.5)) #here is a vector of fixed initial conditions. 
-kList <- list(name = "K", min = 0, max = 8, res = 0.1) #change this to 8 for the analisis 
+kList <- list(name = "K", min = 0, max = 8, res = 2) #change this to 8 for the analisis 
 
 
 
@@ -34,7 +34,7 @@ kList <- list(name = "K", min = 0, max = 8, res = 0.1) #change this to 8 for the
 
 file_folder <- "./data/bifurcations/"
 file_subfolder <- paste0("condpar_", paste0(sList[["name"]]), "_", paste0(sList[["values"]], collapse = "_"),  "_bifpar_", paste0(kList, collapse = "_"),"/")
-file_name <- paste0("DF_BIFURCATION", ".csv")
+file_name <- paste0("DF_BIFURCATION_", paste0(predComb, collapse = "_"),  ".csv")
 
   ##this is a control BEFORE RUNNING THE ANALYSIS
 
@@ -56,7 +56,7 @@ DF_BIF_1 <-  bifurcation_databaser(
   cond_par_list = sList
 )
   
-write_csv(DF_BIF_1, paste0(file_folder, file_subfolder, file_name1))
+write_csv(DF_BIF_1, paste0(file_folder, file_subfolder, file_name))
 
 }
 
@@ -65,10 +65,10 @@ write_csv(DF_BIF_1, paste0(file_folder, file_subfolder, file_name1))
 ##################and this where I bifurcat S iwth diferent intial K
 
 
-sList <- list(name = "S", min = 0, max = 1, res = 0.1) #change this to 8 for the analisis 
+sList <- list(name = "S", min = 0, max = 1, res = 0.5) #change this to 8 for the analisis 
 kList <- list(name = "K", values = c(2)) #here is a vector of fixed initial conditions. 
 predComb <- c(
-  "LB.LB"
+  "LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA"
 )
 
 
@@ -77,7 +77,7 @@ predComb <- c(
 
 file_folder <- "./data/bifurcations/"
 file_subfolder <- paste0("condpar_", paste0(kList[["name"]]), "_", paste0(kList[["values"]], collapse = "_"),  "_bifpar_", paste0(sList, collapse = "_"),"/")
-file_name <- paste0("DF_BIFURCATION", ".csv")
+file_name <- paste0("DF_BIFURCATION_", paste0(predComb, collapse = "_"),  ".csv")
 
   ##this is a control BEFORE RUNNING THE ANALYSIS
 
@@ -99,7 +99,7 @@ DF_BIF_2 <-  bifurcation_databaser(
   cond_par_list = kList
 )
   
-write_csv(DF_BIF_2, paste0(file_folder, file_subfolder, file_name1))
+write_csv(DF_BIF_2, paste0(file_folder, file_subfolder, file_name))
 
 }
 
