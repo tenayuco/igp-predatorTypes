@@ -8,7 +8,7 @@
 #'  @examples
 
 
-plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw) {
+plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, max_par) {
   varOrder <- c("P" = 3, "Na" = 2, "Nl" = 1, "R" = 0)
 
   #wide to long format
@@ -28,7 +28,7 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw) {
       aes(
         group = as.factor(interaction(type, direccion, minMax)),
       ),
-      size = 0.2 ## this is because i dont need this line, but I can put it
+      size = 0 ## this is because i dont need this line, but I can put it
     ) +
     facet_grid(
       vars(fct_reorder(varName, orden, .desc = TRUE)),
@@ -49,8 +49,8 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw) {
       strip.text.x = element_blank(),
       strip.text.y = element_blank()
     ) +
-    labs(y = "", x = "IGP Symmetry (S)") # this depends on the sr parameter
-  #xlim(0, 1) #changes this if you want to have a specific limit
+    labs(y = "", x = paste0(par_sw)) +# this depends on the sr parameter
+  xlim(0, max_par) #changes this if you want to have a specific limit
 
   return(bifPlot)
 }
@@ -69,7 +69,7 @@ add_eq_gray <- function(gg_plot, par_sw, reso = 0.5, only_coex = TRUE) {
    data <- gg_plot$data
   combPred <- unique(data$combPred)
 
- colRecList <-  list("LB.LB" = "darkgreen", "PB.LB" = "#ffff67ff","PB.PB" = "#00b61bff", "LB.PB"= "#18474dff", "LB.PA"= "gray")
+ colRecList <-  list("LB.LB" = "darkgreen", "PB.LB" = "#ffff67ff","PB.PB" = "#00b61bff", "LB.PB"= "#327680ff", "LB.PA"= "gray")
 
 colorRec <- colRecList[[combPred]]
 

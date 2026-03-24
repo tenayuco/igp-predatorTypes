@@ -2,7 +2,9 @@
 ## add the one you want to analize and plot
 
 data_folder <- "./data/bifurcations/"###here you pik the subfolder you want
-data_subfolder <- "condpar_K_2_bifpar_S_0_1_0.01/" ##you modify the one you want
+data_subfolder <- "condpar_K_4_bifpar_S_0_1_0.01/" ##you modify the one you want
+#data_subfolder <- "condpar_S_0.5_bifpar_K_0_8_0.1/" ##you modify the one you want
+
 data_name <- "DF_BIFURCATION_LB.LB_PB.LB_LB.PB_PB.PB_LB.PA.csv"  #this is the fullest data base
 
 DF_BIF <- read.csv(paste0(data_folder, data_subfolder, data_name))
@@ -10,8 +12,8 @@ DF_BIF <- read.csv(paste0(data_folder, data_subfolder, data_name))
 #this changes according to the data base you are using. Eventually it would have to know from the data base but not now
 parSw <- "S"
 resPar <- 0.01
+maxPar <- 0.99
 facetPar <- "K"
-maxPar <- 1
 
 
 #DF_BIF_EQ <- simple_ass_coex(DF_BIF, ncrit = 2) ##this normalizes and calcualte the mean so it removes the "other multiple points
@@ -42,7 +44,8 @@ for (predChosen in predVec) {
       PT_BIF_EQ <- plot_bif_sweep_facet(
         DF_BIF_SAMPLE2,
         par_sw = parSw,
-        facet_1 = facetPar
+        facet_1 = facetPar, 
+        max_par = maxPar
       )
 
       PT_BIF_EQ_AREAS <- add_eq_gray(
