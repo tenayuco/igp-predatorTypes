@@ -29,6 +29,7 @@ Depends:
     Rmisc,
     tidyverse
 Imports: 
+    deBif,
     devtools,
     rdeps,
     tidyr

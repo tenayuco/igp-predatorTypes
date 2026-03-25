@@ -30,7 +30,7 @@ source("analyses/03.analyze_biocontrol.R")
 start<-proc.time()
 #################################################
 #4. derives the detailed bifurcations of examples.. enter the script to change the conditons 
-#source("analyses/04.set_df_examples.R")
+source("analyses/04.set_df_examples.R")
 ####################3
 print(proc.time()- start)
 
