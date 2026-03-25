@@ -8,8 +8,15 @@
 #' @details The K and S are set, but those ones change within each simulation
 #############################################################################################################
 
+##============user section
+
+
+
 ##add the file you want to put the coexistence and analyze 
-DF_BIO_IMPORT <- read.csv("./data/biocontrol/sval_0.1_0.5_0.9_K_0_8_1/DF_BIOCONTROL_SUMMARIZED.csv")  ###arreglar con todo el proyecto
+DF_BIO_IMPORT <- read.csv("./data/biocontrol/condpar_S_0.1_0.5_0.9_bifpar_K_0_8_1/DF_BIOCONTROL_SUMMARIZED.csv")  ###arreglar con todo el proyecto
+
+#============================================================
+
 DF_BIO_EQ <- coexistence_adder(da_ta = DF_BIO_IMPORT)
 
 ###############
