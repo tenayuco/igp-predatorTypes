@@ -37,6 +37,7 @@ source("analyses/02.set_df_biocontrol.R")
 source("analyses/03.analyze_biocontrol.R")
 
 
+
 #============================ DETAILED NUMERIC BIFURCATIONS======================
 
 start<-proc.time()
@@ -55,9 +56,3 @@ source("analyses/05.plot_detailed_bifurcation.R")
 #================ MANUAL EXPLORATIONS===========================
 
 source("analyses/06.bif_manual_exploration.R")
-
-
-
-
-
-
