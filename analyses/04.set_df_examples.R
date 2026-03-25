@@ -9,31 +9,29 @@
 #############################################################################################################
 
 #######Import general combinations and define entries for the simulation
-igpTimes <- seq(from = 1, to = 2000, by = .05) #this is the step for the integration
 #predComb <- c(
  # "LB.LB"
 #)
 
-predComb <- c(
-  "LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA"
-)
+#====================================USER SECTION=============================================
+
+predComb <- c("LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA")
 
 ###### this is the exampesl were I bifurcated K, with differetn values of s
 
-
-sList <- list(name = "S", values = c(0.9)) #here is a vector of fixed initial conditions. 
+sList <- list(name = "S", values = c(0.5)) #here is a vector of fixed initial conditions. 
 kList <- list(name = "K", min = 0, max = 8, res = 0.1) #change this to 8 for the analisis 
+#==========================================================================================
 
-
-
-####
 ##checks if the data bases are present if not, runs it 
+
 
 file_folder <- "./data/bifurcations/"
 file_subfolder <- paste0("condpar_", paste0(sList[["name"]]), "_", paste0(sList[["values"]], collapse = "_"),  "_bifpar_", paste0(kList, collapse = "_"),"/")
 file_name <- paste0("DF_BIFURCATION_", paste0(predComb, collapse = "_"),  ".csv")
 
-  ##this is a control BEFORE RUNNING THE ANALYSIS
+##this is a control BEFORE RUNNING THE ANALYSIS
+igpTimes <- seq(from = 1, to = 2000, by = .05) #this is the step for the integration
 
 if (file.exists(paste0(file_folder, file_subfolder, file_name))) {
     print(paste0(
@@ -58,18 +56,14 @@ write_csv(DF_BIF_1, paste0(file_folder, file_subfolder, file_name))
 }
 
 
-
-##################and this where I bifurcat S iwth diferent intial K
+#====================================USER SECTION=============================================
 
 
 sList <- list(name = "S", min = 0, max = 1, res = 0.01) #change this to 8 for the analisis 
 kList <- list(name = "K", values = c(4)) #here is a vector of fixed initial conditions. 
-predComb <- c(
-  "LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA"
-)
+predComb <- c("LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA")
+#================================================================================
 
-
-####
 ##checks if the data bases are present if not, runs it 
 
 file_folder <- "./data/bifurcations/"

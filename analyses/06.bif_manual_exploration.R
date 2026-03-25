@@ -13,6 +13,9 @@
 #we save the image 
 #c. Then we compare the other parameters in the 2d plots. Once all the boundary curves have been draw, we close. And save the bifurcation plot in a generic rdata. And we move it to the good file. 
 
+
+#====================================USER SECTION=============================================
+
 ## 1. First you chose the parameters you want MANUALLY
 
 chosenP <- "LB" 
@@ -21,6 +24,7 @@ ipProp <- 0.1  ##or 0.9
 inProp <- 0.1  ## or 0.9
 phiP <- 0.5
 phiN <-  0.5
+
 
 ##. 2. Then you run the function that will opne a shiny app. In this you can:
 ##2.1 Check some time series

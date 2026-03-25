@@ -1,7 +1,7 @@
 #the ncrit telle us the max difference
 ## add the one you want to analize and plot
 
-##============user section
+#====================================USER SECTION=============================================
 
 
 data_folder <- "./data/bifurcations/"###here you pik the subfolder you want
@@ -13,25 +13,13 @@ resPar <- 0.1
 maxPar <- 4
 facetPar <- "S"
 
-##=========
+#==========================================================================================
 
 
 data_name <- "DF_BIFURCATION_LB.LB_PB.LB_LB.PB_PB.PB_LB.PA.csv"  #this is the fullest data base
-
 DF_BIF <- read.csv(paste0(data_folder, data_subfolder, data_name))
 
-#this changes according to the data base you are using. Eventually it would have to know from the data base but not now
-
-
-##============user section
-
-
-
-#DF_BIF_EQ <- simple_ass_coex(DF_BIF, ncrit = 2) ##this normalizes and calcualte the mean so it removes the "other multiple points
-
-##This takes into account the min and max vaues and is more general 
 DF_BIF_EQ_minMax <- minMax_coex(simpleDF = DF_BIF, ncrit = 3)
-
 
 #############folder to save the plots
 file_folder <- "./outputs/bifurcation/"

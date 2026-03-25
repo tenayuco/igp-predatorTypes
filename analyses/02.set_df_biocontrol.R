@@ -1,5 +1,5 @@
 
-#==================USER SECTION=============================================
+#====================================USER SECTION=============================================
 #######Import general combinations and define entries for the simulation
 igpTimes <- seq(from = 1, to = 2000, by = .05) #this is the step for the integration
 predComb <- c(
@@ -18,7 +18,7 @@ predComb <- c(
 )
 sList <- list(name = "S", values = c(0.1, 0.5, 0.9)) #here is a vector of fixed initial conditions. 
 kList <- list(name = "K", min = 0, max = 8, res = 1) #change this to 8 for the analisis 
-#==================================================================
+#==================================================================================
 
 ####
 ##checks if the data bases are present if not, runs it 
