@@ -5,13 +5,13 @@
 
 
 data_folder <- "./data/bifurcations/"###here you pik the subfolder you want
-#data_subfolder <- "condpar_K_4_bifpar_S_0_1_0.001/" ##you modify the one you want
-data_subfolder <- "condpar_S_0.5_bifpar_K_0_8_0.1/" ##you modify the one you want
+data_subfolder <- "condpar_K_4_bifpar_S_0_1_0.001/" ##you modify the one you want
+#data_subfolder <- "condpar_S_0.5_bifpar_K_0_8_0.1/" ##you modify the one you want
 
-parSw <- "K"
-resPar <- 0.1
-maxPar <- 4
-facetPar <- "S"
+parSw <- "S"
+resPar <- 0.01
+maxPar <- 0.99
+facetPar <- "K"
 
 #==========================================================================================
 

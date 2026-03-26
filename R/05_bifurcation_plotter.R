@@ -42,9 +42,9 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, max_par) {
       end = 0.8,
       direction = -1
     ) +
-    theme_minimal() +
+    theme_bw() +
     theme(
-      axis.text = element_text(size = 12), # Change tick labels for all axes
+      axis.text = element_text(size = 14), # Change tick labels for all axes
       strip.background = element_blank(),
       strip.text.x = element_blank(),
       strip.text.y = element_blank()
@@ -97,9 +97,17 @@ colorRec <- colRecList[[combPred]]
         "RP" = "gray"
       )
     ) +
-    geom_point(aes(shape = as.factor(type)), color = "black") +
-    #geom_line(aes(group = interaction(type, direccion, minMax), linetype= type), color = "black", linewidth = 1) +
+    #geom_point(aes(shape = as.factor(type)), color = "black") +
+    geom_line(aes(group = interaction(type, direccion, minMax)), color = "black", linewidth = 1.5) +
  theme_bw()+
+     theme(axis.line = element_line(colour = "black"),
+    axis.text = element_text(size = 14),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    #panel.border = element_blank(),
+    panel.background = element_blank(), 
+  strip.background = element_blank(),
+  strip.text.x = element_blank()) +
     theme(legend.position = "none")
    
 
