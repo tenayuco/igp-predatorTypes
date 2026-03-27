@@ -6,8 +6,8 @@ combPred <- paste0(chosen_P, ".", chosen_N)
 chosenParms = igp_combinations[[combPred]]$igp_parms
 chosenInit = igp_combinations[[combPred]]$igp_init
 chosenModel = igp_combinations[[combPred]]$igp_model
-chosenParms["Ip"] <- 0 
-chosenParms["In"] <- 0  
+chosenParms["Ip"] <- 0.1  ##even if this is fake it willbe 0 with the preference 
+chosenParms["In"] <- 0.1
 
   #========================== set the specific values of Ip and In if PB or HV
 # ============== this is, change 0.1 or 0.9 (low and high)
