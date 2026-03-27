@@ -12,11 +12,12 @@ chosenParms["In"] <- 0
   #========================== set the specific values of Ip and In if PB or HV
 # ============== this is, change 0.1 or 0.9 (low and high)
 if (chosen_P %in% c("PB", "HV")){
-  chosenParms["Ip"] <- ip_prop * igp_combinations[[chosenComb]]$i_max[["maxIp"]]
+  chosenParms["Ip"] <- signif(ip_prop * igp_combinations[[combPred]]$i_max[["maxIp"]], 2)
 }  
 
+  
 if (chosen_N %in% c("PB", "HV")){
-  chosenParms["In"] <- in_prop * igp_combinations[[chosenComb]]$i_max[["maxIn"]]
+  chosenParms["In"] <- signif(in_prop * igp_combinations[[combPred]]$i_max[["maxIn"]],2)
 }  
 
   

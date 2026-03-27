@@ -19,7 +19,7 @@
 ## 1. First you chose the parameters you want MANUALLY
 
 chosenP <- "LB" 
-chosenN <- "LB"
+chosenN <- "HV"
 ipProp <- 0.1  ##or 0.9
 inProp <- 0.1  ## or 0.9
 phiP <- 0.5
@@ -33,12 +33,12 @@ phiN <-  0.5
 ##2.3 change the initial conditions to start from these values and rerun it until you find all bifurcation points
 ##2.4 For 2d bifurcation, change to the phasepot window, put the parameters you want and run from the bifrucation point to generate a bifrucation curve 
 ##.2.5 save the plots if you want, but then close everything
+##. 3. Before closing chose BifCurves to save the data
 
 debif_function(chosen_P= chosenP, chosen_N = chosenN, ip_prop = ipProp, in_prop = inProp, phi_P = phiP, phi_N = phiN)
 
-##. 3. After closing it will automatically generate some list called chosenModelBifCurves, you save this list and save it to a folder 
 
-bifDATA <- chosenModelBifCurves
+bifDATA <- bifCurves
 
 output_dir <- paste0("outputs/manualBifurcation/rData_ALL/",paste0(chosenP, ".", chosenN)
 ,"/")
@@ -51,7 +51,7 @@ if (!dir.exists(output_dir)) {
 }
 
 
-saveRDS(bifDATA , paste0(output_dir,
+saveRDS(bifDATA , paste0(output_dir, "/",
                         paste0(chosenP, ".", chosenN), "_bif_K_S_", 
                         "IpProp_" ,ipProp, 
                         "phiP_", phiP, 
