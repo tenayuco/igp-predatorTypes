@@ -58,7 +58,7 @@ bif_backFor <-function(model, parSw, maxPar, minPar=0, resolution=0.5, mod_param
     
     
     #print(c('i=',i, 'zinit=', zinit))
-    out<-ode(func=model, y=zinit, times=mod_times,parms=parms) |> 
+    out<-deSolve::ode(func=model, y=zinit, times=mod_times,parms=parms) |> 
       as.data.frame()
     
     #we round to the ten digit
