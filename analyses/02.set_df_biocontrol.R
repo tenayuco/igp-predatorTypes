@@ -47,7 +47,7 @@ DF_BIOCONTROL <-  bifurcation_databaser(
   cond_par_list = sList
 )
   
-write_csv(DF_BIOCONTROL, paste0(file_folder, file_subfolder, file_name1))
+utils::write_csv(DF_BIOCONTROL, paste0(file_folder, file_subfolder, file_name1))
 
 }
 
