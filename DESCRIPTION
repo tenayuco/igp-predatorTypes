@@ -32,4 +32,5 @@ Imports:
     deBif,
     devtools,
     rdeps,
-    tidyr
+    tidyr,
+    utils
