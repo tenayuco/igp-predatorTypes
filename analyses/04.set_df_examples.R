@@ -17,9 +17,10 @@
 
 predComb <- c("LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA")
 
+#predComb <- c("LB.LB")
 ###### this is the exampesl were I bifurcated K, with differetn values of s
 
-sList <- list(name = "S", values = c(0.5)) #here is a vector of fixed initial conditions. 
+sList <- list(name = "S", values = c(0.9)) #here is a vector of fixed initial conditions. 
 kList <- list(name = "K", min = 0, max = 8, res = 0.1) #change this to 8 for the analisis 
 #==========================================================================================
 
@@ -33,6 +34,7 @@ file_name <- paste0("DF_BIFURCATION_", paste0(predComb, collapse = "_"),  ".csv"
 ##this is a control BEFORE RUNNING THE ANALYSIS
 igpTimes <- seq(from = 1, to = 2000, by = .05) #this is the step for the integration
 
+tictoc::tic()
 if (file.exists(paste0(file_folder, file_subfolder, file_name))) {
     print(paste0(
       file_folder,
@@ -54,6 +56,7 @@ DF_BIF_1 <-  bifurcation_databaser(
 write_csv(DF_BIF_1, paste0(file_folder, file_subfolder, file_name))
 
 }
+tictoc::toc()
 
 
 #====================================USER SECTION=============================================

@@ -23,7 +23,7 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, max_par) {
         varName %in% names(varOrder) ~ varOrder[varName]
       )
     ) |>
-    ggplot(aes(x = !!sym(par_sw), y = value)) + ## the !!sym is for make the parsw a symbol
+    ggplot(aes(x = !!sym(par_sw), y = log10(value))) + ## the !!sym is for make the parsw a symbol
     geom_line(
       aes(
         group = as.factor(interaction(type, direccion, minMax)),
@@ -80,7 +80,7 @@ colorRec <- colRecList[[combPred]]
     geom_rect(aes(
       xmin = !!sym(par_sw),
       xmax = !!sym(par_sw) + reso,
-      ymin = 0,
+      ymin = -Inf,
       ymax = Inf,
       fill = EQ,
       alpha = EQ
