@@ -22,12 +22,17 @@ bifurcation_databaser <- function(igp_combinations, igp_times, pred_comb, bif_pa
       if (is.na(ipMax)) {
         Ip_seq = 0
       } else {
-        Ip_seq = signif(ipMax * c(0.1, 0.9), 2)
+        ###quick change only to run the high in and low ip
+        Ip_seq = signif(ipMax * c(0.1), 2)
+
+        #Ip_seq = signif(ipMax * c(0.1, 0.9), 2)
       } ###now we will remove high and low values
       if (is.na(inMax)) {
         In_seq = 0
       } else {
-        In_seq = signif(inMax * c(0.1, 0.9), 2)
+        In_seq = signif(inMax * c(0.9), 2)
+        #In_seq = signif(inMax * c(0.1, 0.9), 2)
+
       }
 
       DF_I <- expand.grid(Ip = Ip_seq, In = In_seq, condPar = cond_par_list[["values"]])

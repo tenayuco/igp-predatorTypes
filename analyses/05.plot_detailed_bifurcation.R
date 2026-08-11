@@ -5,13 +5,14 @@
 
 
 data_folder <- "./data/bifurcations/"###here you pik the subfolder you want
-#data_subfolder <- "condpar_K_4_bifpar_S_0_1_0.001/" ##you modify the one you want
-data_subfolder <- "condpar_S_0.5_bifpar_K_0_8_0.1/" ##you modify the one you want
+data_subfolder <- "condpar_K_4_bifpar_S_0_1_0.001/" ##you modify the one you want
+#data_subfolder <- "condpar_S_0.5_bifpar_K_0_8_0.01/" ##you modify the one you want
+#data_subfolder <- "condpar_S_0.1_0.5_0.9_bifpar_K_0_8_1/" ##you modify the one you want
 
-parSw <- "K"
-resPar <- 0.1
-maxPar <- 4
-facetPar <- "S"
+parSw <- "S"
+resPar <- 0.001
+maxPar <- 1
+facetPar <- "K"
 
 #==========================================================================================
 
@@ -60,7 +61,7 @@ for (predChosen in predVec) {
         ipChosen,
         "_In_",
         inChosen,
-        "_BIFURCATION.png"
+        "_BIFURCATION.pdf"  #png
       )
 
       if (file.exists(paste0(file_folder, file_subfolder, file_name))) {

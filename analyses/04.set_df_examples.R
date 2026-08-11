@@ -21,7 +21,7 @@ predComb <- c("LB.LB", "PB.LB", "LB.PB", "PB.PB", "LB.PA")
 ###### this is the exampesl were I bifurcated K, with differetn values of s
 
 sList <- list(name = "S", values = c(0.9)) #here is a vector of fixed initial conditions. 
-kList <- list(name = "K", min = 0, max = 8, res = 0.1) #change this to 8 for the analisis 
+kList <- list(name = "K", min = 0, max = 8, res = 0.01) #change this to 8 for the analisis 
 #==========================================================================================
 
 ##checks if the data bases are present if not, runs it 

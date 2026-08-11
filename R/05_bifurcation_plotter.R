@@ -23,12 +23,12 @@ plot_bif_sweep_facet <- function(full_sweep, facet_1, par_sw, max_par) {
         varName %in% names(varOrder) ~ varOrder[varName]
       )
     ) |>
-    ggplot(aes(x = !!sym(par_sw), y = log10(value))) + ## the !!sym is for make the parsw a symbol
+    ggplot(aes(x = !!sym(par_sw), y = value)) + ## the !!sym is for make the parsw a symbol
     geom_line(
       aes(
         group = as.factor(interaction(type, direccion, minMax)),
       ),
-      size = 0 ## this is because i dont need this line, but I can put it
+      size = 0, color= "white" ## this is because i dont need this line, but I can put it
     ) +
     facet_grid(
       vars(fct_reorder(varName, orden, .desc = TRUE)),
@@ -80,7 +80,7 @@ colorRec <- colRecList[[combPred]]
     geom_rect(aes(
       xmin = !!sym(par_sw),
       xmax = !!sym(par_sw) + reso,
-      ymin = -Inf,
+      ymin = 0,
       ymax = Inf,
       fill = EQ,
       alpha = EQ
@@ -91,14 +91,14 @@ colorRec <- colRecList[[combPred]]
     scale_fill_manual(
       values = colsEQ <- c(
         "0" = "white",
-        "R" = "#e6e6e6",
-        "RN" = "#b5b5b5",
+        "R" = "white",
+        "RN" = "#e6e6e6",
         "RNP" = colorRec,
-        "RP" = "gray"
+        "RP" = "#8d8d8d"
       )
     ) +
-    #geom_point(aes(shape = as.factor(type)), color = "black") +
-    geom_line(aes(group = interaction(type, direccion, minMax)), color = "black", linewidth = 1.5) +
+    geom_point(aes(shape = as.factor(type)), color = "black", size=1) +
+    #geom_line(aes(group = interaction(type, direccion, minMax)), color = "black", linewidth = 1) +
  theme_bw()+
      theme(axis.line = element_line(colour = "black"),
     axis.text = element_text(size = 14),
